@@ -12,39 +12,70 @@ namespace SmartWorld.Core
     {
         public World()
         {
+            /// Initiate properties from config
             var config = ConfigManager.Current;
             Height = config.WorldHeight;
             Width = config.WorldWidth;
-            Agents = new List<Agent>();
 
+
+            // Create random agents
+            Agents = new List<Agent>();
             for (int i = 0; i < config.NumberOfAgents; i++)
             {
                 var agentToAdd = Agent.CreateRandomAgend(this);
                 Agents.Add(agentToAdd);
             }
+
+            // EvolutionManager is used to create offspring
+            EvolutionManager = new EvolutionManager(this);
         }
 
 
-        public ICollection<Agent> Agents { get; private set; }
+        public IList<Agent> Agents { get; private set; }
         public double Height { get; private set; }
         public double Width { get; private set; }
+
+        private EvolutionManager EvolutionManager { get; set; }
 
         public void Tick()
         {
             // All agents should make a move
-            // Remove dead agents and for each of them create a child
+            foreach (var agent in Agents)
+            {
+                agent.Tick();
+            }
 
+            // Remove dead agents 
+            var numberOfDeaths = 0;
+            for (int i = Agents.Count - 1; i >= 0; i--)
+            {
+                if (Agents[i].IsDead)
+                {
+                    Agents.RemoveAt(i);
+                    numberOfDeaths++;
+                }
+            }
+
+            // For each of them create a child
+            for (int i = 0; i < numberOfDeaths; i++)
+            {
+                EvolutionManager.CreateChild();
+            }
         }
 
 
-        ICollection<IIndividual> IPopulation.Individuals
+        IEnumerable<IIndividual> IPopulation.Individuals
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                return Agents.OfType<IIndividual>();
+            }
         }
 
         void IPopulation.CreateIndividual(double[] genotype)
         {
-            throw new NotImplementedException();
+            var agentToAdd = new Agent(genotype);
+            Agents.Add(agentToAdd);
         }
     }
 }

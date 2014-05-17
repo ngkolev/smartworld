@@ -23,6 +23,11 @@ namespace SmartWorld.Core
             Health = config.InitialAgentHealth;
         }
 
+        public Agent(double[] genotype)
+        {
+            throw new NotImplementedException();
+        }
+
         public Vector Position { get; private set; }
         public Vector LookAt { get; private set; }
         public bool IsDead { get; private set; }

@@ -8,7 +8,7 @@ namespace SmartWorld.Core.Evolution
 {
     public interface IPopulation
     {
-        ICollection<IIndividual> Individuals { get; }
+        IEnumerable<IIndividual> Individuals { get; }
         void CreateIndividual(double[] genotype);
     }
 }
