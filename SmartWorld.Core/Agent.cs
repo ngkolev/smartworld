@@ -45,6 +45,10 @@ namespace SmartWorld.Core
             {
                 throw new NotImplementedException();
             }
+            private set
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public double Fitness
@@ -115,6 +119,20 @@ namespace SmartWorld.Core
 
         public static Agent CreateRandomAgent(World world)
         {
+            var agent = CreateAgentWithRandomPosition(world);
+            agent.Brain.SetRandomWeights();
+            return agent;
+        }
+
+        public static Agent CreateAgent(World world, double[] genotype)
+        {
+            var agent = CreateAgentWithRandomPosition(world);
+            agent.Genotype = genotype;
+            return agent;
+        }
+
+        private static Agent CreateAgentWithRandomPosition(World world)
+        {
             // Randomize position
             var maxX = (int)(world.Width - ConfigManager.Current.AgentRadius);
             var maxY = (int)(world.Height - ConfigManager.Current.AgentRadius);
@@ -130,12 +148,6 @@ namespace SmartWorld.Core
             var lookAt = lookAtUnnormalized.Normalized;
 
             return new Agent(world, position, lookAt);
-        }
-
-        public static Agent CreateAgent(double[] genotype)
-        {
-            // NOTE: Don't forget it to place it (reuse CreateRandomAgent method)
-            throw new NotImplementedException();
         }
     }
 }

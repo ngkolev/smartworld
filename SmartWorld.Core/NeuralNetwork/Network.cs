@@ -9,9 +9,12 @@ namespace SmartWorld.Core.NeuralNetwork
 {
     public class Network
     {
-        public double[] Genotype
+        public Layer HiddenLayer { get; private set; }
+        public Layer OutputLayer { get; private set; }
+
+        public void SetRandomWeights()
         {
-            get { throw new NotImplementedException(); }
+            // TODO: Set random weights and biases
         }
     }
 }
