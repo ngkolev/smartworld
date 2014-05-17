@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Windows.Media;
 
 namespace SmartWorld.UI.ViewModel
 {
@@ -17,33 +18,17 @@ namespace SmartWorld.UI.ViewModel
 
         public int Height { get; set; }
 
-        #region Agents
-        private ObservableCollection<AgentViewModel> _agents;
-        public virtual ObservableCollection<AgentViewModel> Agents
+        #region Elements
+        private ObservableCollection<ElementViewModel> _elements;
+        public virtual ObservableCollection<ElementViewModel> Elements
         {
-            get { return _agents; }
+            get { return _elements; }
             set
             {
-                if (value != _agents)
+                if (value != _elements)
                 {
-                    _agents = value;
-                    OnPropertyChanged("Agents");
-                }
-            }
-        }
-        #endregion
-
-        #region FoodElement
-        private ObservableCollection<FoodElementViewModel> _foodElement;
-        public virtual ObservableCollection<FoodElementViewModel> FoodElement
-        {
-            get { return _foodElement; }
-            set
-            {
-                if (value != _foodElement)
-                {
-                    _foodElement = value;
-                    OnPropertyChanged("FoodElement");
+                    _elements = value;
+                    OnPropertyChanged("Elements");
                 }
             }
         }
@@ -63,30 +48,36 @@ namespace SmartWorld.UI.ViewModel
             Height = (int)config.WorldHeight;
 
             // NOTE: Commented because of the test. Remove this comment when it is done
-            //World = new World();
+            // World = new World();
 
             StartCommand = new RelayCommand(Start);
             Timer = new Timer(1000 / 24);
             Timer.Elapsed += Timer_Elapsed;
 
             // NOTE: Just for the test. Remove this when it is done
-            Agents = new ObservableCollection<AgentViewModel>() 
+            Elements = new ObservableCollection<ElementViewModel>() 
             {
-                new AgentViewModel 
+                new ElementViewModel 
                 { 
-                    PositionX = 10, 
-                    PositionY = 20, 
-                    Radius = 20 
-                } 
-            };
-
-            FoodElement = new ObservableCollection<FoodElementViewModel>() 
-            { 
-                new FoodElementViewModel {
-                    PositionX = 10,
-                    PositionY = 20,
-                    Radius = 10 
-                } 
+                    PositionX = 100, 
+                    PositionY = 150, 
+                    Radius = 20,
+                    Color=Brushes.Red,
+                },
+                new ElementViewModel 
+                { 
+                    PositionX = 200, 
+                    PositionY = 250, 
+                    Radius = 20,
+                    Color=Brushes.Red,
+                },
+                new ElementViewModel 
+                {
+                    PositionX = 300,
+                    PositionY = 320,
+                    Radius = 10,
+                    Color=Brushes.Green,
+                },
             };
         }
 
@@ -94,22 +85,23 @@ namespace SmartWorld.UI.ViewModel
         {
             World.Tick();
 
-            var agents = World.Agents.Select(a => new AgentViewModel
+            var agents = World.Agents.Select(a => new ElementViewModel
             {
                 PositionX = (int)a.Position.X,
                 PositionY = (int)a.Position.Y,
                 Radius = (int)a.Radius,
             });
 
-            var foodElements = World.FoodElements.Select(f => new FoodElementViewModel
+            var foodElements = World.FoodElements.Select(f => new ElementViewModel
             {
                 PositionX = (int)f.Position.X,
                 PositionY = (int)f.Position.Y,
                 Radius = (int)f.Radius,
             });
 
-            Agents = new ObservableCollection<AgentViewModel>(agents);
-            FoodElement = new ObservableCollection<FoodElementViewModel>(foodElements);
+            var allElements = agents.Union(foodElements);
+
+            Elements = new ObservableCollection<ElementViewModel>(allElements);
         }
 
         private void Start()

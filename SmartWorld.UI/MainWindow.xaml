@@ -5,6 +5,24 @@
     <StackPanel Orientation="Vertical">
         <Border BorderBrush="Red" BorderThickness="2" Height="{Binding Height}" Width="{Binding Width}" >
             <Canvas>
+                <ItemsControl ItemsSource="{Binding Elements}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas Background="White" Width="{Binding Radius}" Height="{Binding Radius}"  />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Ellipse Stroke="{Binding Color}" Width="{Binding Radius}" Height="{Binding Radius}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style>
+                            <Setter Property="Canvas.Top" Value="{Binding PositionY}" />
+                            <Setter Property="Canvas.Left" Value="{Binding PositionX}" />
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                </ItemsControl>
 
             </Canvas>
         </Border>

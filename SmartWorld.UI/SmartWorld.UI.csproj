@@ -53,9 +53,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModel\AgentViewModel.cs" />
-    <Compile Include="ViewModel\ElementViewModelBase.cs" />
-    <Compile Include="ViewModel\FoodElementViewModel.cs" />
+    <Compile Include="ViewModel\ElementViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
