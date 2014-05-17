@@ -64,7 +64,7 @@ namespace SmartWorld.Core
             {
                 var hiddenLayerGenotype = GetLayerGenotype(Brain.HiddenLayer);
                 var outputLayerGenotype = GetLayerGenotype(Brain.OutputLayer);
-                var genotype = hiddenLayerGenotype.Union(outputLayerGenotype);
+                var genotype = hiddenLayerGenotype.Concat(outputLayerGenotype);
 
                 return genotype.ToArray();
             }
@@ -259,7 +259,7 @@ namespace SmartWorld.Core
 
         private static IEnumerable<double> GetLayerGenotype(Layer layer)
         {
-            return layer.Neurons.SelectMany(n => n.Weights.Union(new[] { n.Bias }));
+            return layer.Neurons.SelectMany(n => n.Weights.Concat(new[] { n.Bias }));
         }
     }
 }

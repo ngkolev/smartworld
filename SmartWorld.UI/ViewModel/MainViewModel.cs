@@ -85,7 +85,7 @@ namespace SmartWorld.UI.ViewModel
                     Color = Brushes.Green,
                 });
 
-                var allElements = agents.Union(foodElements);
+                var allElements = agents.Concat(foodElements);
 
                 Elements = new ObservableCollection<ElementViewModel>(allElements);
             }
