@@ -23,6 +23,7 @@ namespace SmartWorld.Core.NeuralNetwork
         public void SetRandomWeights()
         {
             // TODO: Set random weights and biases
+            throw new NotImplementedException();
         }
     }
 }

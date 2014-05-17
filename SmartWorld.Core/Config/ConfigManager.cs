@@ -8,7 +8,7 @@ using Common;
 
 namespace SmartWorld.Core.Config
 {
-    internal class ConfigManager
+    public class ConfigManager
     {
         private static readonly ConfigManager current = new ConfigManager();
         private ConfigManager()

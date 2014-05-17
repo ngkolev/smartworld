@@ -3,13 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow">
     <StackPanel Orientation="Vertical">
-        <Border BorderBrush="Red" BorderThickness="2" Height="600" Width="900" >
-            <Canvas >
+        <Border BorderBrush="Red" BorderThickness="2" Height="{Binding Height}" Width="{Binding Width}" >
+            <Canvas>
 
             </Canvas>
         </Border>
         <Grid Height="100">
-            <Button Content="Start" Width="100" Height="50" FontSize="20"/>
+            <Button Content="Start" Command="{Binding StartCommand}" Width="100" Height="50" FontSize="20"/>
         </Grid>
     </StackPanel>
 </Window>
