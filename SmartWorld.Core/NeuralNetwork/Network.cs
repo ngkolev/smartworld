@@ -12,6 +12,14 @@ namespace SmartWorld.Core.NeuralNetwork
         public Layer HiddenLayer { get; private set; }
         public Layer OutputLayer { get; private set; }
 
+        public IEnumerable<double> Pulse(IEnumerable<double> inputs)
+        {
+            var hiddenLayerOutputs = HiddenLayer.Neurons.Select(n => n.Pulse(inputs));
+            var outputLayerOutputs = OutputLayer.Neurons.Select(n => n.Pulse(hiddenLayerOutputs));
+
+            return outputLayerOutputs;
+        }
+
         public void SetRandomWeights()
         {
             // TODO: Set random weights and biases

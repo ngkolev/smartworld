@@ -8,6 +8,8 @@ namespace SmartWorld.Core.NeuralNetwork
 {
     public class Layer
     {
+        public ICollection<Neuron> Neurons { get; private set; }
+
         public IEnumerable<double> NeuronWeights
         {
             get

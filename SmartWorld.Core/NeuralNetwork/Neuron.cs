@@ -10,11 +10,26 @@ namespace SmartWorld.Core.NeuralNetwork
     public class Neuron
     {
         public double Bias { get; private set; }
-        public ICollection<double> Weights{ get; private set; }
+        public IList<double> Weights{ get; private set; }
 
-        public double Pulse(ICollection<double> inputs)
+        public double Pulse(IEnumerable<double> inputs)
         {
-            throw new NotImplementedException();
+            var inputsArray = inputs.ToArray();
+
+            var sum = Bias;
+            for (int i = 0; i < Weights.Count; i++)
+            {
+                sum += Weights[i] * inputsArray[i];
+            }
+
+            var result = Sigmoid(sum);
+
+            return result;
+        }
+
+        private double Sigmoid(double x)
+        {
+            return 2 / (1 + Math.Exp(-2 * x)) - 1;
         }
     }
 }
