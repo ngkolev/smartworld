@@ -46,6 +46,7 @@
     <Compile Include="Evolution\IIndividual.cs" />
     <Compile Include="Evolution\IPopulation.cs" />
     <Compile Include="FoodElement.cs" />
+    <Compile Include="IElement.cs" />
     <Compile Include="NeuralNetwork\Layer.cs" />
     <Compile Include="NeuralNetwork\Network.cs" />
     <Compile Include="NeuralNetwork\Neuron.cs" />

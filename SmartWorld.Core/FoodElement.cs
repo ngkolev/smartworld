@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SmartWorld.Core
 {
-    public class FoodElement
+    public class FoodElement : IElement
     {
         private FoodElement(Vector position)
         {

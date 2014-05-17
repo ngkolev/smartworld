@@ -55,6 +55,21 @@ namespace Common
             return new Vector(left.X + right.X, left.Y + right.Y);
         }
 
+        public static Vector operator +(Vector left, double right)
+        {
+            return new Vector(left.X + right, left.Y + right);
+        }
+
+        public static Vector operator +(double left, Vector right)
+        {
+            return new Vector(left + right.X, left + right.Y);
+        }
+
+        public static Vector operator -(Vector left, Vector right)
+        {
+            return new Vector(left.X - right.X, left.Y - right.Y);
+        }
+
         public static Vector operator *(Vector left, Vector right)
         {
             return new Vector(left.X * right.X, left.Y * right.Y);
@@ -70,15 +85,11 @@ namespace Common
             return new Vector(left * right.X, left * right.Y);
         }
 
-        public static Vector operator +(Vector left, double right)
+        public static double operator ^(Vector left, Vector right)
         {
-            return new Vector(left.X + right, left.Y + right);
+            return left.X * right.X + left.Y * right.Y;
         }
 
-        public static Vector operator +(double left, Vector right)
-        {
-            return new Vector(left + right.X, left + right.Y);
-        }
 
         public static Vector CreateRandomVector(double minX, double maxX, double minY, double maxY)
         {

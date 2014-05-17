@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SmartWorld.Core
 {
-    public class Agent : IIndividual
+    public class Agent : IIndividual, IElement
     {
         // Inputs
         private const int NUMBER_OF_INPUTS = 4;
@@ -46,13 +46,13 @@ namespace SmartWorld.Core
         public bool IsDead { get; private set; }
         public int Age { get; private set; }
         public int Health { get; private set; }
+        public double Radius { get; set; }
 
         private World World { get; set; }
         private Network Brain { get; set; }
         private double Speed { get; set; }
         private double EyeAngle { get; set; }
         private double RotationAngle { get; set; }
-        private double Radius { get; set; }
         private double HealthFactor { get; set; }
         private double AgeFactor { get; set; }
 
@@ -169,7 +169,7 @@ namespace SmartWorld.Core
             var eatenFood = new List<FoodElement>();
             foreach (var food in World.FoodElements)
             {
-                if (MathUtil.CheckForCollision(Position, Radius, food.Position, food.Radius))
+                if (MathUtil.CheckForCollisionBetweenCircles(Position, Radius, food.Position, food.Radius))
                 {
                     Health += food.HealthPoints;
                     eatenFood.Add(food);
@@ -199,7 +199,7 @@ namespace SmartWorld.Core
         {
             foreach (var agent in World.Agents)
             {
-                if (agent != this && MathUtil.CheckForCollision(Position, Radius, agent.Position, agent.Radius))
+                if (agent != this && MathUtil.CheckForCollisionBetweenCircles(Position, Radius, agent.Position, agent.Radius))
                 {
                     IsDead = true;
                     break;
