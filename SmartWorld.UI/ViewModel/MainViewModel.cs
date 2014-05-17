@@ -47,38 +47,11 @@ namespace SmartWorld.UI.ViewModel
             Width = (int)config.WorldWidth;
             Height = (int)config.WorldHeight;
 
-            // NOTE: Commented because of the test. Remove this comment when it is done
-            // World = new World();
+            World = new World();
 
             StartCommand = new RelayCommand(Start);
             Timer = new Timer(1000 / 24);
             Timer.Elapsed += Timer_Elapsed;
-
-            // NOTE: Just for the test. Remove this when it is done
-            Elements = new ObservableCollection<ElementViewModel>() 
-            {
-                new ElementViewModel 
-                { 
-                    PositionX = 100, 
-                    PositionY = 150, 
-                    Radius = 20,
-                    Color=Brushes.Red,
-                },
-                new ElementViewModel 
-                { 
-                    PositionX = 200, 
-                    PositionY = 250, 
-                    Radius = 20,
-                    Color=Brushes.Red,
-                },
-                new ElementViewModel 
-                {
-                    PositionX = 300,
-                    PositionY = 320,
-                    Radius = 10,
-                    Color=Brushes.Green,
-                },
-            };
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -90,6 +63,7 @@ namespace SmartWorld.UI.ViewModel
                 PositionX = (int)a.Position.X,
                 PositionY = (int)a.Position.Y,
                 Radius = (int)a.Radius,
+                Color = Brushes.Red,
             });
 
             var foodElements = World.FoodElements.Select(f => new ElementViewModel
@@ -97,6 +71,7 @@ namespace SmartWorld.UI.ViewModel
                 PositionX = (int)f.Position.X,
                 PositionY = (int)f.Position.Y,
                 Radius = (int)f.Radius,
+                Color = Brushes.Green,
             });
 
             var allElements = agents.Union(foodElements);
