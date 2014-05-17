@@ -12,6 +12,19 @@ namespace SmartWorld.Core
 {
     public class Agent : IIndividual
     {
+        // Inputs
+        private const int NUMBER_OF_INPUTS = 4;
+        private const int INDEX_LEFT_RED_EYE = 0;
+        private const int INDEX_RIGHT_RED_EYE = 1;
+        private const int INDEX_LEFT_GREEN_EYE = 2;
+        private const int INDEX_RIGHT_GREEN_EYE = 3;
+
+        // Outputs
+        private const int NUMBER_OF_OUTPUTS = 2;
+        private const int INDEX_TURN_LEFT = 0;
+        private const int INDEX_TURN_RIGHT = 1;
+
+
         private Agent(World world, Vector position, Vector lookAt)
         {
             var config = ConfigManager.Current;
@@ -43,11 +56,37 @@ namespace SmartWorld.Core
         {
             get
             {
-                throw new NotImplementedException();
+                var hiddenLayerGenotype = GetLayerGenotype(Brain.HiddenLayer);
+                var outputLayerGenotype = GetLayerGenotype(Brain.OutputLayer);
+                var genotype = hiddenLayerGenotype.Union(outputLayerGenotype);
+
+                return genotype.ToArray();
             }
             private set
             {
-                throw new NotImplementedException();
+                var hiddenLayerNeuronCount = Brain.HiddenLayer.Neurons.Count;
+                var hiddenLayerGenotypeSize = hiddenLayerNeuronCount * (NUMBER_OF_INPUTS + 1);
+                var hiddenLayerGenotype = value.Take(hiddenLayerGenotypeSize);
+                var outputLayerGenotype = value.Skip(hiddenLayerGenotypeSize);
+
+                var hiddenLayerNeuronsGenotype = hiddenLayerGenotype.InSetsOf(NUMBER_OF_INPUTS + 1).ToList();
+                var outputLayerNeuronsGenotype = outputLayerGenotype.InSetsOf(hiddenLayerNeuronCount + 1).ToList();
+
+                for (int i = 0; i < Brain.HiddenLayer.Neurons.Count; i++)
+                {
+                    var weights = hiddenLayerNeuronsGenotype[i].SkipLast();
+                    var bias = hiddenLayerNeuronsGenotype[i].TakeLast();
+                    Brain.HiddenLayer.Neurons[i].Weights = weights.ToList();
+                    Brain.HiddenLayer.Neurons[i].Bias = bias;
+                }
+
+                for (int i = 0; i < Brain.OutputLayer.Neurons.Count; i++)
+                {
+                    var weights = outputLayerNeuronsGenotype[i].SkipLast();
+                    var bias = outputLayerNeuronsGenotype[i].TakeLast();
+                    Brain.OutputLayer.Neurons[i].Weights = weights.ToList();
+                    Brain.OutputLayer.Neurons[i].Bias = bias;
+                }
             }
         }
 
@@ -62,11 +101,8 @@ namespace SmartWorld.Core
 
         public void Tick()
         {
-            // Tell the brain what is happening
-            // Get the response from brain and make move
-            // Check if we have got food. If we have then tell the world to create some more food
-            throw new NotImplementedException();
-
+            MakeMove();
+            CheckForCollisionWithFood();
 
             CheckForCollisionWithBorder();
 
@@ -80,6 +116,34 @@ namespace SmartWorld.Core
                 ReduceHealth();
                 CheckForStarvation();
             }
+        }
+
+        private void MakeMove()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void CheckForCollisionWithFood()
+        {
+            // Check if we have food to eat
+            var eatenFood = new List<FoodElement>();
+            foreach (var food in World.FoodElements)
+            {
+                if (MathUtil.CheckForCollision(Position, Radius, food.Position, food.Radius))
+                {
+                    Health += food.HealthPoints;
+                    eatenFood.Add(food);
+                }
+            }
+
+            // Remove eaten food
+            foreach (var foodToRemove in eatenFood)
+            {
+                World.FoodElements.Remove(foodToRemove);
+            }
+
+            // Add new food
+            World.CreateRandomFoodElements(eatenFood.Count);
         }
 
         private void CheckForCollisionWithBorder()
@@ -148,6 +212,11 @@ namespace SmartWorld.Core
             var lookAt = lookAtUnnormalized.Normalized;
 
             return new Agent(world, position, lookAt);
+        }
+
+        private static IEnumerable<double> GetLayerGenotype(Layer layer)
+        {
+            return layer.Neurons.SelectMany(n => n.Weights.Union(new[] { n.Bias }));
         }
     }
 }

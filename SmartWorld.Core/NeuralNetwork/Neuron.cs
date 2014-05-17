@@ -9,8 +9,8 @@ namespace SmartWorld.Core.NeuralNetwork
 {
     public class Neuron
     {
-        public double Bias { get; private set; }
-        public IList<double> Weights{ get; private set; }
+        public double Bias { get; set; }
+        public IList<double> Weights{ get; set; }
 
         public double Pulse(IEnumerable<double> inputs)
         {

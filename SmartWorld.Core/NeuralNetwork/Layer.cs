@@ -8,18 +8,6 @@ namespace SmartWorld.Core.NeuralNetwork
 {
     public class Layer
     {
-        public ICollection<Neuron> Neurons { get; private set; }
-
-        public IEnumerable<double> NeuronWeights
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public IList<Neuron> Neurons { get; private set; }
     }
 }
