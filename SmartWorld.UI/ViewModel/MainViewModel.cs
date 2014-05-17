@@ -53,6 +53,7 @@ namespace SmartWorld.UI.ViewModel
                 {
                     _isWorking = value;
                     OnPropertyChanged("IsWorking");
+
                     StartCommand.RaiseCanExecuteChanged();
                     StopCommand.RaiseCanExecuteChanged();
                     RestartCommand.RaiseCanExecuteChanged();
@@ -64,8 +65,8 @@ namespace SmartWorld.UI.ViewModel
         public MainViewModel()
         {
             var config = ConfigManager.Current;
-            Width = (int)config.WorldWidth;
-            Height = (int)config.WorldHeight;
+            Width = config.WorldWidth.Rounded();
+            Height = config.WorldHeight.Rounded();
 
             StartCommand = new RelayCommand(Start, () => !IsWorking);
             StopCommand = new RelayCommand(Stop, () => IsWorking);
@@ -90,17 +91,17 @@ namespace SmartWorld.UI.ViewModel
 
                 var agents = World.Agents.Select(a => new ElementViewModel
                 {
-                    PositionX = (int)a.Position.X,
-                    PositionY = (int)a.Position.Y,
-                    Radius = (int)a.Radius,
+                    PositionX = a.Position.X.Rounded(),
+                    PositionY = a.Position.Y.Rounded(),
+                    Radius = a.Radius.Rounded(),
                     Color = Brushes.Red,
                 });
 
                 var foodElements = World.FoodElements.Select(f => new ElementViewModel
                 {
-                    PositionX = (int)f.Position.X,
-                    PositionY = (int)f.Position.Y,
-                    Radius = (int)f.Radius,
+                    PositionX = f.Position.X.Rounded(),
+                    PositionY =f.Position.Y.Rounded(),
+                    Radius = f.Radius.Rounded(),
                     Color = Brushes.Green,
                 });
 

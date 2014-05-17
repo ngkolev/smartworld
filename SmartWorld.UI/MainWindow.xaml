@@ -13,7 +13,7 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Ellipse Stroke="{Binding Color}" Width="{Binding Radius}" Height="{Binding Radius}" />
+                            <Ellipse Stroke="{Binding Color}" StrokeThickness="2" Width="{Binding Radius}" Height="{Binding Radius}" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                     <ItemsControl.ItemContainerStyle>
