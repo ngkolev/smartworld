@@ -1,8 +1,12 @@
 ﻿<Window x:Class="SmartWorld.UI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow">
+    <StackPanel Orientation="Vertical">
+        <Border BorderBrush="Red" BorderThickness="2" Height="700" Width="700" >
+            <Canvas >
+
+            </Canvas>
+        </Border>
+    </StackPanel>
 </Window>

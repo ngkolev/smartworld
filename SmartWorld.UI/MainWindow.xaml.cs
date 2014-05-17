@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SmartWorld.UI.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,16 @@ namespace SmartWorld.UI
     /// </summary>
     public partial class MainWindow : Window
     {
+        public MainViewModel ViewModel
+        {
+            get { return DataContext as MainViewModel; }
+            set { DataContext = value; }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
+            ViewModel = new MainViewModel();
         }
     }
 }

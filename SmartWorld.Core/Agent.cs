@@ -32,7 +32,6 @@ namespace SmartWorld.Core
         public int Age { get; private set; }
         public int Health { get; private set; }
 
-
         private Network Brain { get; set; }
         private World World { get; set; }
         private double Speed { get; set; }
@@ -56,17 +55,63 @@ namespace SmartWorld.Core
             }
         }
 
+
         public void Tick()
         {
             // Tell the brain what is happening
             // Get the response from brain and make move
             // Check if we have got food. If we have then tell the world to create some more food
-            // Check for colision with the border
-            // Check for colision with other agent
-            // Reduce health
-            // Check if we are dead because of lack of food
             throw new NotImplementedException();
+
+
+            CheckForCollisionWithBorder();
+
+            if (!IsDead)
+            {
+                CheckForCollisionWithOtherAgent();
+            }
+
+            if (!IsDead)
+            {
+                ReduceHealth();
+                CheckForStarvation();
+            }
         }
+
+        private void CheckForCollisionWithBorder()
+        {
+            if (Position.X < 0 || World.Width < Position.X ||
+                Position.Y < 0 || World.Height < Position.Y)
+            {
+                IsDead = true;
+            }
+        }
+
+        private void CheckForCollisionWithOtherAgent()
+        {
+            foreach (var agent in World.Agents)
+            {
+                if (agent != this && MathUtil.CheckForCollision(Position, Radius, agent.Position, agent.Radius))
+                {
+                    IsDead = true;
+                    break;
+                }
+            }
+        }
+
+        private void ReduceHealth()
+        {
+            Health--;
+        }
+
+        private void CheckForStarvation()
+        {
+            if (Health < 0)
+            {
+                IsDead = true;
+            }
+        }
+
 
         public static Agent CreateRandomAgent(World world)
         {
