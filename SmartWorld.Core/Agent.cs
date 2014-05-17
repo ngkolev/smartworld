@@ -1,5 +1,6 @@
 ﻿using Common;
 using SmartWorld.Core.Evolution;
+using SmartWorld.Core.NeuralNetwork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +19,16 @@ namespace SmartWorld.Core
             Speed = speed;
         }
 
-        public World World { get; private set; }
         public Vector Position { get; private set; }
         public Vector LookAt { get; private set; }
         public bool IsDead { get; private set; }
-        public double Speed { get; private set; }
         public int Age { get; private set; }
         public int CollectedFood { get; private set; }
+
+
+        private Network Brain { get; set; }
+        private World World { get; set; }
+        private double Speed { get; set; }
 
         public double[] Genotype
         {
