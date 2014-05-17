@@ -24,5 +24,9 @@ namespace SmartWorld.Core.Config
         public int NumberOfAgents { get; private set; }
         public double AgentSpeed { get; private set; }
         public int InitialAgentHealth { get; private set; }
+
+        public double AgentRadius { get; set; }
+
+        public static double MutationRate { get; set; }
     }
 }

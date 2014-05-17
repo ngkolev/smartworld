@@ -21,11 +21,7 @@ namespace SmartWorld.Core
             LookAt = lookAt;
             Speed = config.AgentSpeed;
             Health = config.InitialAgentHealth;
-        }
-
-        public Agent(double[] genotype)
-        {
-            throw new NotImplementedException();
+            Radius = config.AgentRadius;
         }
 
         public Vector Position { get; private set; }
@@ -38,6 +34,7 @@ namespace SmartWorld.Core
         private Network Brain { get; set; }
         private World World { get; set; }
         private double Speed { get; set; }
+        private double Radius { get; set; }
 
         public double[] Genotype
         {
@@ -61,6 +58,11 @@ namespace SmartWorld.Core
         }
 
         public static Agent CreateRandomAgend(World world)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static Agent CreateAgent(double[] genotype)
         {
             throw new NotImplementedException();
         }

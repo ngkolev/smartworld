@@ -74,7 +74,7 @@ namespace SmartWorld.Core
 
         void IPopulation.CreateIndividual(double[] genotype)
         {
-            var agentToAdd = new Agent(genotype);
+            var agentToAdd = Agent.CreateAgent(genotype);
             Agents.Add(agentToAdd);
         }
     }
