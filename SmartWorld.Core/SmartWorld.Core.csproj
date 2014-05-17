@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -44,6 +45,7 @@
     <Compile Include="Evolution\EvolutionManager.cs" />
     <Compile Include="Evolution\IIndividual.cs" />
     <Compile Include="Evolution\IPopulation.cs" />
+    <Compile Include="FoodElement.cs" />
     <Compile Include="NeuralNetwork\Layer.cs" />
     <Compile Include="NeuralNetwork\Network.cs" />
     <Compile Include="NeuralNetwork\Neuron.cs" />

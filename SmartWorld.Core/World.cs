@@ -22,16 +22,21 @@ namespace SmartWorld.Core
             Agents = new List<Agent>();
             for (int i = 0; i < config.NumberOfAgents; i++)
             {
-                var agentToAdd = Agent.CreateRandomAgend(this);
+                var agentToAdd = Agent.CreateRandomAgent(this);
                 Agents.Add(agentToAdd);
             }
 
             // EvolutionManager is used to create offspring
             EvolutionManager = new EvolutionManager(this);
+
+            // Create food
+            Agents = new List<Agent>();
+            CreateRandomFoodElements(config.NumberOfFoodElements);
         }
 
 
         public IList<Agent> Agents { get; private set; }
+        public IList<FoodElement> FoodElements { get; private set; }
         public double Height { get; private set; }
         public double Width { get; private set; }
 
@@ -63,6 +68,14 @@ namespace SmartWorld.Core
             }
         }
 
+        internal void CreateRandomFoodElements(int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                var foodToAdd = FoodElement.CreateRandomFoodElement(this);
+                FoodElements.Add(foodToAdd);
+            }
+        }
 
         IEnumerable<IIndividual> IPopulation.Individuals
         {

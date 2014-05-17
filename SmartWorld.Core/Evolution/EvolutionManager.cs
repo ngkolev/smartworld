@@ -12,7 +12,7 @@ namespace SmartWorld.Core.Evolution
         public EvolutionManager(IPopulation population)
         {
             Population = population;
-            MutationRate = ConfigManager.MutationRate;
+            MutationRate = ConfigManager.Current.MutationRate;
             Random = new Random();
         }
 

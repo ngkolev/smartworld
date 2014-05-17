@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Common;
 
 namespace SmartWorld.Core.Config
 {
@@ -11,7 +13,21 @@ namespace SmartWorld.Core.Config
         private static readonly ConfigManager current = new ConfigManager();
         private ConfigManager()
         {
-            // TODO: Load configuration
+            var appSettings = ConfigurationManager.AppSettings;
+
+            WorldHeight = appSettings["WorldHeight"].AsDouble();
+            WorldWidth = appSettings["WorldWidth"].AsDouble();
+            NumberOfAgents = appSettings["NumberOfAgents"].AsInt();
+            NumberOfFoodElements = appSettings["NumberOfFoodElements"].AsInt();
+            MutationRate = appSettings["MutationRate"].AsDouble();
+            NumberOfNeuronsInHiddenLayer = appSettings["NumberOfNeuronsInHiddenLayer"].AsInt();
+            AgentSpeed = appSettings["AgentSpeed"].AsDouble();
+            AgentInitialHealth = appSettings["AgentInitialHealth"].AsInt();
+            AgentRadius = appSettings["AgentRadius"].AsDouble();
+            AgentHealthFactor = appSettings["AgentHealthFactor"].AsDouble();
+            AgentAgeFactor = appSettings["AgentAgeFactor"].AsDouble();
+            FoodElementRadius = appSettings["FoodElementRadius"].AsDouble();
+            FoodElementHealthPoints = appSettings["FoodElementHealthPoints"].AsInt();         
         }
 
         public static ConfigManager Current
@@ -22,11 +38,17 @@ namespace SmartWorld.Core.Config
         public double WorldHeight { get; private set; }
         public double WorldWidth { get; private set; }
         public int NumberOfAgents { get; private set; }
+        public int NumberOfFoodElements { get; private set; }
+        public double MutationRate { get; private set; }
+        public int NumberOfNeuronsInHiddenLayer { get; private set; }
+
         public double AgentSpeed { get; private set; }
-        public int InitialAgentHealth { get; private set; }
+        public int AgentInitialHealth { get; private set; }
+        public double AgentRadius { get; private set; }
+        public double AgentHealthFactor { get; private set; }
+        public double AgentAgeFactor { get; private set; }
 
-        public double AgentRadius { get; set; }
-
-        public static double MutationRate { get; set; }
+        public double FoodElementRadius { get; private set; }
+        public int FoodElementHealthPoints { get; private set; }
     }
 }
