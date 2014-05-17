@@ -19,7 +19,7 @@ namespace SmartWorld.Core
 
 
             // Create random agents
-            Agents = new List<Agent>();
+            Agents = new List<Agent>(config.NumberOfAgents);
             for (int i = 0; i < config.NumberOfAgents; i++)
             {
                 var agentToAdd = Agent.CreateRandomAgent(this);
@@ -30,7 +30,7 @@ namespace SmartWorld.Core
             EvolutionManager = new EvolutionManager(this);
 
             // Create food
-            Agents = new List<Agent>();
+            FoodElements = new List<FoodElement>();
             CreateRandomFoodElements(config.NumberOfFoodElements);
         }
 

@@ -28,33 +28,38 @@ namespace SmartWorld.Core.Evolution
                 .Take(2)
                 .ToArray();
 
-            var mother = bestTwoAgents[0].Genotype;
-            var father = bestTwoAgents[1].Genotype;
-
-            // Crossover
-            var genotypeLength = mother.Length;
-            var splitLine = genotypeLength / 2;
-            var result = new List<double>(genotypeLength);
-            for (int i = 0; i < splitLine; i++)
+            if (bestTwoAgents.Length == 2)
             {
-                result[i] = mother[i];
-            }
+                var mother = bestTwoAgents[0].Genotype;
+                var father = bestTwoAgents[1].Genotype;
 
-            for (int i = splitLine; i < genotypeLength; i++)
-            {
-                result[i] = father[i];
-            }
+                // Crossover
+                var genotypeLength = mother.Length;
+                var splitLine = genotypeLength / 2;
+                var result = new double[genotypeLength];
+                for (int i = 0; i < splitLine; i++)
+                {
+                    result[i] = mother[i];
+                }
 
-            // Mutation
-            var random = RandomHolder.Random;
-            if (random.NextDouble() < MutationRate)
-            {
-                var i = random.Next(genotypeLength);
-                var j = random.Next(genotypeLength);
+                for (int i = splitLine; i < genotypeLength; i++)
+                {
+                    result[i] = father[i];
+                }
 
-                var temporal = result[i];
-                result[i] = result[j];
-                result[j] = temporal;
+                // Mutation
+                var random = RandomHolder.Random;
+                if (random.NextDouble() < MutationRate)
+                {
+                    var i = random.Next(genotypeLength);
+                    var j = random.Next(genotypeLength);
+
+                    var temporal = result[i];
+                    result[i] = result[j];
+                    result[j] = temporal;
+                }
+
+                Population.CreateIndividual(result);
             }
         }
     }

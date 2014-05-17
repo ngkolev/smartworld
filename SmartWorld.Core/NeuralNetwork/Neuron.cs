@@ -12,6 +12,11 @@ namespace SmartWorld.Core.NeuralNetwork
         public double Bias { get; set; }
         public IList<double> Weights{ get; set; }
 
+        public Neuron(int inputCount)
+        {
+            Weights = new double[inputCount];
+        }
+
         public double Pulse(IEnumerable<double> inputs)
         {
             var inputsArray = inputs.ToArray();
@@ -29,7 +34,7 @@ namespace SmartWorld.Core.NeuralNetwork
 
         private double Sigmoid(double x)
         {
-            return 2 / (1 + Math.Exp(-2 * x)) - 1;
+            return 2.0 / (1 + Math.Exp(-2 * x)) - 1;
         }
     }
 }

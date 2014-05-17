@@ -8,6 +8,16 @@ namespace SmartWorld.Core.NeuralNetwork
 {
     public class Layer
     {
+        public Layer(int numberOfInputs, int numberOfNeurons)
+        {
+            Neurons = new List<Neuron>(numberOfNeurons);
+            for (int i = 0; i < numberOfNeurons; i++)
+            {
+                var neuronToAdd = new Neuron(numberOfInputs);
+                Neurons.Add(neuronToAdd);
+            }
+        }
+
         public IList<Neuron> Neurons { get; private set; }
     }
 }

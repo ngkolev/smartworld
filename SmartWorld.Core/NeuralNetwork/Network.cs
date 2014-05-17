@@ -1,4 +1,5 @@
-﻿using SmartWorld.Core.Evolution;
+﻿using Common;
+using SmartWorld.Core.Evolution;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,12 @@ namespace SmartWorld.Core.NeuralNetwork
         public Layer HiddenLayer { get; private set; }
         public Layer OutputLayer { get; private set; }
 
+        public Network(int inputsCount, int hiddenLayerNeuronCount, int outputLayerNeuronCount)
+        {
+            HiddenLayer = new Layer(inputsCount, hiddenLayerNeuronCount);
+            OutputLayer = new Layer(hiddenLayerNeuronCount, outputLayerNeuronCount);
+        }
+
         public IEnumerable<double> Pulse(IEnumerable<double> inputs)
         {
             var hiddenLayerOutputs = HiddenLayer.Neurons.Select(n => n.Pulse(inputs));
@@ -22,8 +29,22 @@ namespace SmartWorld.Core.NeuralNetwork
 
         public void SetRandomWeights()
         {
-            // TODO: Set random weights and biases
-            throw new NotImplementedException();
+            SetRandomNeuronWeights(HiddenLayer);
+            SetRandomNeuronWeights(OutputLayer);
+        }
+
+        private static void SetRandomNeuronWeights(Layer layer)
+        {
+            var random = RandomHolder.Random;
+            foreach (var neuron in layer.Neurons)
+            {
+                for (int i = 0; i < neuron.Weights.Count; i++)
+                {
+                    neuron.Weights[i] = random.NextDouble(0.1, 0.9);
+                }
+
+                neuron.Bias = random.NextDouble(-0.9, 0.9);
+            }
         }
     }
 }

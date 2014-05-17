@@ -39,6 +39,8 @@ namespace SmartWorld.Core
             RotationAngle = config.AgentRotationAngle;
             HealthFactor = config.AgentHealthFactor;
             AgeFactor = config.AgentAgeFactor;
+
+            Brain = new Network(NUMBER_OF_INPUTS, config.NumberOfNeuronsInHiddenLayer, NUMBER_OF_OUTPUTS);
         }
 
         public Vector Position { get; private set; }
@@ -160,7 +162,7 @@ namespace SmartWorld.Core
                 LookAt = LookAt.Rotated(RotationAngle);
             }
 
-            LookAt += Speed;
+            Position = Position + LookAt * Speed;
         }
 
         private void CheckForCollisionWithFood()

@@ -35,11 +35,13 @@ namespace SmartWorld.UI.ViewModel
         #endregion
 
         public RelayCommand StartCommand { get; private set; }
+        public RelayCommand StopCommand { get; private set; }
 
         private Timer Timer { get; set; }
 
         private World World { get; set; }
 
+        public bool IsWorking { get; set; }
 
         public MainViewModel()
         {
@@ -49,39 +51,57 @@ namespace SmartWorld.UI.ViewModel
 
             World = new World();
 
-            StartCommand = new RelayCommand(Start);
+            StartCommand = new RelayCommand(Start, () => !IsWorking);
+            StopCommand = new RelayCommand(Stop, () => IsWorking);
+
             Timer = new Timer(1000 / 24);
             Timer.Elapsed += Timer_Elapsed;
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            World.Tick();
+            DoWork();
+        }
 
-            var agents = World.Agents.Select(a => new ElementViewModel
+        private void DoWork()
+        {
+            lock (this)
             {
-                PositionX = (int)a.Position.X,
-                PositionY = (int)a.Position.Y,
-                Radius = (int)a.Radius,
-                Color = Brushes.Red,
-            });
+                World.Tick();
 
-            var foodElements = World.FoodElements.Select(f => new ElementViewModel
-            {
-                PositionX = (int)f.Position.X,
-                PositionY = (int)f.Position.Y,
-                Radius = (int)f.Radius,
-                Color = Brushes.Green,
-            });
+                var agents = World.Agents.Select(a => new ElementViewModel
+                {
+                    PositionX = (int)a.Position.X,
+                    PositionY = (int)a.Position.Y,
+                    Radius = (int)a.Radius,
+                    Color = Brushes.Red,
+                });
 
-            var allElements = agents.Union(foodElements);
+                var foodElements = World.FoodElements.Select(f => new ElementViewModel
+                {
+                    PositionX = (int)f.Position.X,
+                    PositionY = (int)f.Position.Y,
+                    Radius = (int)f.Radius,
+                    Color = Brushes.Green,
+                });
 
-            Elements = new ObservableCollection<ElementViewModel>(allElements);
+                var allElements = agents.Union(foodElements);
+
+                Elements = new ObservableCollection<ElementViewModel>(allElements);
+            }
         }
 
         private void Start()
         {
+            IsWorking = true;
             Timer.Start();
+        }
+
+        private void Stop()
+        {
+            IsWorking = false;
+            Timer.Stop();
+            World = new World();
         }
     }
 }
