@@ -33,8 +33,10 @@ namespace SmartWorld.Core
             Position = position;
             LookAt = lookAt;
             Speed = config.AgentSpeed;
+            EyeAngle = config.AgentEyeAngle;
             Health = config.AgentInitialHealth;
             Radius = config.AgentRadius;
+            RotationAngle = config.AgentRotationAngle;
             HealthFactor = config.AgentHealthFactor;
             AgeFactor = config.AgentAgeFactor;
         }
@@ -45,9 +47,11 @@ namespace SmartWorld.Core
         public int Age { get; private set; }
         public int Health { get; private set; }
 
-        private Network Brain { get; set; }
         private World World { get; set; }
+        private Network Brain { get; set; }
         private double Speed { get; set; }
+        private double EyeAngle { get; set; }
+        private double RotationAngle { get; set; }
         private double Radius { get; set; }
         private double HealthFactor { get; set; }
         private double AgeFactor { get; set; }
@@ -113,14 +117,50 @@ namespace SmartWorld.Core
 
             if (!IsDead)
             {
-                ReduceHealth();
+                MakeOlder();
                 CheckForStarvation();
             }
         }
 
         private void MakeMove()
         {
-            throw new NotImplementedException();
+            // Left eye
+            var leftEye = new EyeManager(World, this, -EyeAngle);
+            var leftColor = leftEye.See();
+            var leftColorRed = leftColor == Color.Red;
+            var leftColorGreen = leftColor == Color.Green;
+
+            // Right eye
+            var rightEye = new EyeManager(World, this, EyeAngle);
+            var rightColor = rightEye.See();
+            var rightColorRed = rightColor == Color.Red;
+            var rightColorGreen = rightColor == Color.Green;
+
+            // Inputs
+            var inputs = new double[NUMBER_OF_INPUTS];
+
+            inputs[INDEX_LEFT_RED_EYE] = leftColorRed.AsDouble();
+            inputs[INDEX_LEFT_GREEN_EYE] = leftColorGreen.AsDouble();
+            inputs[INDEX_RIGHT_RED_EYE] = rightColorRed.AsDouble();
+            inputs[INDEX_RIGHT_GREEN_EYE] = rightColorGreen.AsDouble();
+
+            // Pulse
+            var outputs = Brain.Pulse(inputs).ToArray();
+            var turnLeft = outputs[INDEX_TURN_LEFT] > 0;
+            var turnRight = outputs[INDEX_TURN_RIGHT] > 0;
+
+            // Move
+            if (turnLeft)
+            {
+                LookAt = LookAt.Rotated(-RotationAngle);
+            }
+
+            if (turnRight)
+            {
+                LookAt = LookAt.Rotated(RotationAngle);
+            }
+
+            LookAt += Speed;
         }
 
         private void CheckForCollisionWithFood()
@@ -167,9 +207,10 @@ namespace SmartWorld.Core
             }
         }
 
-        private void ReduceHealth()
+        private void MakeOlder()
         {
             Health--;
+            Age++;
         }
 
         private void CheckForStarvation()

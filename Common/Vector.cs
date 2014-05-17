@@ -42,6 +42,14 @@ namespace Common
             }
         }
 
+        public Vector Rotated(double angle)
+        {
+            var x = X * Math.Cos(angle) - Y * Math.Sin(angle);
+            var y = X * Math.Sin(angle) + Y * Math.Cos(angle);
+
+            return new Vector(x, y);
+        }
+
         public static Vector operator +(Vector left, Vector right)
         {
             return new Vector(left.X + right.X, left.Y + right.Y);
@@ -60,6 +68,16 @@ namespace Common
         public static Vector operator *(double left, Vector right)
         {
             return new Vector(left * right.X, left * right.Y);
+        }
+
+        public static Vector operator +(Vector left, double right)
+        {
+            return new Vector(left.X + right, left.Y + right);
+        }
+
+        public static Vector operator +(double left, Vector right)
+        {
+            return new Vector(left + right.X, left + right.Y);
         }
 
         public static Vector CreateRandomVector(double minX, double maxX, double minY, double maxY)

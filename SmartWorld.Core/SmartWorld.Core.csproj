@@ -50,6 +50,7 @@
     <Compile Include="NeuralNetwork\Network.cs" />
     <Compile Include="NeuralNetwork\Neuron.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="EyeManager.cs" />
     <Compile Include="World.cs" />
   </ItemGroup>
   <ItemGroup />

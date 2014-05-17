@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SmartWorld.Core.Evolution
 {
-    public class EvolutionManager
+    internal class EvolutionManager
     {
         public EvolutionManager(IPopulation population)
         {

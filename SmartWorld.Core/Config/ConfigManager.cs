@@ -8,7 +8,7 @@ using Common;
 
 namespace SmartWorld.Core.Config
 {
-    public class ConfigManager
+    internal class ConfigManager
     {
         private static readonly ConfigManager current = new ConfigManager();
         private ConfigManager()
@@ -22,12 +22,15 @@ namespace SmartWorld.Core.Config
             MutationRate = appSettings["MutationRate"].AsDouble();
             NumberOfNeuronsInHiddenLayer = appSettings["NumberOfNeuronsInHiddenLayer"].AsInt();
             AgentSpeed = appSettings["AgentSpeed"].AsDouble();
+            AgentEyeAngle = appSettings["AgentEyeAngle"].AsDouble();
+            AgentEyeDepth = appSettings["AgentEyeDepth"].AsDouble();
+            AgentRotationAngle = appSettings["AgentRotationAngle"].AsDouble();
             AgentInitialHealth = appSettings["AgentInitialHealth"].AsInt();
             AgentRadius = appSettings["AgentRadius"].AsDouble();
             AgentHealthFactor = appSettings["AgentHealthFactor"].AsDouble();
             AgentAgeFactor = appSettings["AgentAgeFactor"].AsDouble();
             FoodElementRadius = appSettings["FoodElementRadius"].AsDouble();
-            FoodElementHealthPoints = appSettings["FoodElementHealthPoints"].AsInt();         
+            FoodElementHealthPoints = appSettings["FoodElementHealthPoints"].AsInt();
         }
 
         public static ConfigManager Current
@@ -43,7 +46,10 @@ namespace SmartWorld.Core.Config
         public int NumberOfNeuronsInHiddenLayer { get; private set; }
 
         public double AgentSpeed { get; private set; }
+        public double AgentEyeAngle { get; private set; }
+        public double AgentEyeDepth { get; private set; }
         public int AgentInitialHealth { get; private set; }
+        public double AgentRotationAngle { get; private set; }
         public double AgentRadius { get; private set; }
         public double AgentHealthFactor { get; private set; }
         public double AgentAgeFactor { get; private set; }
