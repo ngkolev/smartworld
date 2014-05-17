@@ -1,4 +1,4 @@
 smartworld
 ==========
 
-An artificial intelligence application for a university project
+An artificial intelligence application for an university project
