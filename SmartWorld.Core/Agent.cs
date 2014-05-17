@@ -80,8 +80,8 @@ namespace SmartWorld.Core
 
         private void CheckForCollisionWithBorder()
         {
-            if (Position.X < 0 || World.Width < Position.X ||
-                Position.Y < 0 || World.Height < Position.Y)
+            if (Position.X < Radius || World.Width < Position.X + Radius ||
+                Position.Y < Radius || World.Height < Position.Y + Radius)
             {
                 IsDead = true;
             }
@@ -115,7 +115,21 @@ namespace SmartWorld.Core
 
         public static Agent CreateRandomAgent(World world)
         {
-            throw new NotImplementedException();
+            // Randomize position
+            var maxX = (int)(world.Width - ConfigManager.Current.AgentRadius);
+            var maxY = (int)(world.Height - ConfigManager.Current.AgentRadius);
+            var position = Vector.CreateRandomVector(maxX, maxY);
+
+            // Randomize look direction
+            var lookAtUnnormalized = Vector.CreateRandomVector(-1, 1, -1, 1);
+            if (lookAtUnnormalized.LengthSquared == 0) // Ensure that we haven't picked the null vector
+            {
+                lookAtUnnormalized = new Vector(1, 0);
+            }
+
+            var lookAt = lookAtUnnormalized.Normalized;
+
+            return new Agent(world, position, lookAt);
         }
 
         public static Agent CreateAgent(double[] genotype)

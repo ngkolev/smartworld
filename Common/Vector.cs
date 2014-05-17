@@ -26,6 +26,21 @@ namespace Common
             }
         }
 
+        public double LengthSquared
+        {
+            get
+            {
+                return X.Sqr() + Y.Sqr();
+            }
+        }
+
+        public double Length
+        {
+            get
+            {
+                return Math.Sqrt(LengthSquared);
+            }
+        }
 
         public static Vector operator +(Vector left, Vector right)
         {
@@ -45,6 +60,20 @@ namespace Common
         public static Vector operator *(double left, Vector right)
         {
             return new Vector(left * right.X, left * right.Y);
+        }
+
+        public static Vector CreateRandomVector(double minX, double maxX, double minY, double maxY)
+        {
+            var random = RandomHolder.Random;
+            var x = random.NextDouble(minX, maxX);
+            var y = random.NextDouble(minY, maxY);
+
+            return new Vector(x, y);
+        }
+
+        public static Vector CreateRandomVector(double maxX, double maxY)
+        {
+            return CreateRandomVector(0, maxX, 0, maxY);
         }
     }
 }

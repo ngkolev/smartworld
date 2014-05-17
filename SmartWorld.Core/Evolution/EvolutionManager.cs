@@ -1,4 +1,5 @@
-﻿using SmartWorld.Core.Config;
+﻿using Common;
+using SmartWorld.Core.Config;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +14,11 @@ namespace SmartWorld.Core.Evolution
         {
             Population = population;
             MutationRate = ConfigManager.Current.MutationRate;
-            Random = new Random();
         }
 
         public IPopulation Population { get; private set; }
 
         private double MutationRate { get; set; }
-        private Random Random { get; set; }
 
         public void CreateChild()
         {
@@ -47,10 +46,11 @@ namespace SmartWorld.Core.Evolution
             }
 
             // Mutation
-            if (Random.NextDouble() < MutationRate)
+            var random = RandomHolder.Random;
+            if (random.NextDouble() < MutationRate)
             {
-                var i = Random.Next(genotypeLength);
-                var j = Random.Next(genotypeLength);
+                var i = random.Next(genotypeLength);
+                var j = random.Next(genotypeLength);
 
                 var temporal = result[i];
                 result[i] = result[j];
