@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Agent.cs" />
+    <Compile Include="Config\ConfigManager.cs" />
     <Compile Include="Evolution\EvolutionManager.cs" />
     <Compile Include="Evolution\IIndividual.cs" />
     <Compile Include="Evolution\IPopulation.cs" />

@@ -1,4 +1,5 @@
-﻿using SmartWorld.Core.Evolution;
+﻿using SmartWorld.Core.Config;
+using SmartWorld.Core.Evolution;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,15 +10,16 @@ namespace SmartWorld.Core
 {
     public class World : IPopulation
     {
-        public World(double height, double width, int numberOfAgents)
+        public World()
         {
-            Height = height;
-            Width = width;
+            var config = ConfigManager.Current;
+            Height = config.WorldHeight;
+            Width = config.WorldWidth;
             Agents = new List<Agent>();
 
-            for (int i = 0; i < numberOfAgents; i++)
+            for (int i = 0; i < config.NumberOfAgents; i++)
             {
-                var agentToAdd = Agent.CreateRandomAgend(this, 1); // FIXME: Hardcoded agent speed
+                var agentToAdd = Agent.CreateRandomAgend(this);
                 Agents.Add(agentToAdd);
             }
         }
@@ -29,7 +31,9 @@ namespace SmartWorld.Core
 
         public void Tick()
         {
-            throw new NotImplementedException();
+            // All agents should make a move
+            // Remove dead agents and for each of them create a child
+
         }
 
 
