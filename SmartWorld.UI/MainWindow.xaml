@@ -29,6 +29,7 @@
         <StackPanel Orientation="Horizontal" Height="100">
             <Button Content="Start" Command="{Binding StartCommand}" Width="100" Height="50" FontSize="20"/>
             <Button Content="Stop" Margin="10" Command="{Binding StopCommand}" Width="100" Height="50" FontSize="20"/>
+            <Button Content="Restart" Margin="10" Command="{Binding RestartCommand}" Width="100" Height="50" FontSize="20"/>
         </StackPanel>
     </StackPanel>
 </Window>

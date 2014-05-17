@@ -36,12 +36,30 @@ namespace SmartWorld.UI.ViewModel
 
         public RelayCommand StartCommand { get; private set; }
         public RelayCommand StopCommand { get; private set; }
+        public RelayCommand RestartCommand { get; private set; }
 
         private Timer Timer { get; set; }
 
         private World World { get; set; }
 
-        public bool IsWorking { get; set; }
+        #region IsWorking
+        private bool _isWorking;
+        public virtual bool IsWorking
+        {
+            get { return _isWorking; }
+            set
+            {
+                if (value != _isWorking)
+                {
+                    _isWorking = value;
+                    OnPropertyChanged("IsWorking");
+                    StartCommand.RaiseCanExecuteChanged();
+                    StopCommand.RaiseCanExecuteChanged();
+                    RestartCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
+        #endregion
 
         public MainViewModel()
         {
@@ -49,13 +67,14 @@ namespace SmartWorld.UI.ViewModel
             Width = (int)config.WorldWidth;
             Height = (int)config.WorldHeight;
 
-            World = new World();
-
             StartCommand = new RelayCommand(Start, () => !IsWorking);
             StopCommand = new RelayCommand(Stop, () => IsWorking);
+            RestartCommand = new RelayCommand(Restart, () => IsWorking);
 
             Timer = new Timer(1000 / 24);
             Timer.Elapsed += Timer_Elapsed;
+
+            World = new World();
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -101,6 +120,10 @@ namespace SmartWorld.UI.ViewModel
         {
             IsWorking = false;
             Timer.Stop();
+        }
+
+        private void Restart()
+        {
             World = new World();
         }
     }
