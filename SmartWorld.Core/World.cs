@@ -16,7 +16,7 @@ namespace SmartWorld.Core
             var config = ConfigManager.Current;
             Height = config.WorldHeight;
             Width = config.WorldWidth;
-
+            NumberOfAgentsThatHaveExisted = config.NumberOfAgents;
 
             // Create random agents
             Agents = new List<Agent>(config.NumberOfAgents);
@@ -36,6 +36,10 @@ namespace SmartWorld.Core
 
 
         public IList<Agent> Agents { get; private set; }
+        public int NumberOfAgentsThatHaveExisted { get; private set; }
+        public double BestAgentFitness { get; private set; }
+        public int NumberOfTicks
+        { get; private set; }
         public IList<FoodElement> FoodElements { get; private set; }
         public double Height { get; private set; }
         public double Width { get; private set; }
@@ -44,6 +48,10 @@ namespace SmartWorld.Core
 
         public void Tick()
         {
+            // Set statistic properties
+            NumberOfTicks++;
+            BestAgentFitness = Agents.OrderByDescending(a => a.Fitness).First().Fitness;
+
             // All agents should make a move
             foreach (var agent in Agents)
             {
@@ -88,6 +96,7 @@ namespace SmartWorld.Core
         void IPopulation.CreateIndividual(double[] genotype)
         {
             var agentToAdd = Agent.CreateAgent(this, genotype);
+            NumberOfAgentsThatHaveExisted++;
             Agents.Add(agentToAdd);
         }
     }

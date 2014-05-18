@@ -177,7 +177,6 @@ namespace SmartWorld.Core
                     eatenFood.Add(food);
                 }
             }
-
             // Remove eaten food
             foreach (var foodToRemove in eatenFood)
             {

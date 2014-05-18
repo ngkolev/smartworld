@@ -75,6 +75,54 @@ namespace SmartWorld.UI.ViewModel
         }
         #endregion
 
+        #region WorldAge
+        private int _worldAge;
+        public virtual int WorldAge
+        {
+            get { return _worldAge; }
+            set
+            {
+                if (value != _worldAge)
+                {
+                    _worldAge = value;
+                    OnPropertyChanged("WorldAge");
+                }
+            }
+        }
+        #endregion
+
+        #region BestAgentFitness
+        private double _bestAgentFitness;
+        public virtual double BestAgentFitness
+        {
+            get { return _bestAgentFitness; }
+            set
+            {
+                if (value != _bestAgentFitness)
+                {
+                    _bestAgentFitness = value;
+                    OnPropertyChanged("BestAgentFitness");
+                }
+            }
+        }
+        #endregion
+
+        #region NumberOfAgentsThatHaveExisted
+        private int _numberOfAgentsThatHaveExisted;
+        public virtual int NumberOfAgentsThatHaveExisted
+        {
+            get { return _numberOfAgentsThatHaveExisted; }
+            set
+            {
+                if (value != _numberOfAgentsThatHaveExisted)
+                {
+                    _numberOfAgentsThatHaveExisted = value;
+                    OnPropertyChanged("NumberOfAgentsThatHaveExisted");
+                }
+            }
+        }
+        #endregion
+
         public RelayCommand StartCommand { get; private set; }
         public RelayCommand StopCommand { get; private set; }
         public RelayCommand RestartCommand { get; private set; }
@@ -110,9 +158,10 @@ namespace SmartWorld.UI.ViewModel
         }
 
 
+        private static readonly object syncObjectWorldTimer = new object();
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            lock (this)
+            lock (syncObjectWorldTimer)
             {
                 World.Tick();
 
@@ -138,6 +187,10 @@ namespace SmartWorld.UI.ViewModel
                 var allElements = agents.Concat(foodElements);
 
                 Elements = new ObservableCollection<ElementViewModel>(allElements);
+
+                NumberOfAgentsThatHaveExisted = World.NumberOfAgentsThatHaveExisted;
+                WorldAge = World.NumberOfTicks;
+                BestAgentFitness = World.BestAgentFitness;
             }
         }
 

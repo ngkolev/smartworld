@@ -13,6 +13,20 @@
                 <Button Content="Restart" Margin="10" Command="{Binding RestartCommand}" Width="200" Height="50" FontSize="20"/>
                 <Button Content="Start fast generation" Margin="10" Command="{Binding StartFastGenerationCommand}" Width="200" Height="50" FontSize="20"/>
                 <Button Content="Stop fast generation" Margin="10" Command="{Binding StopFastGenerationCommand}" Width="200" Height="50" FontSize="20"/>
+                <StackPanel Margin="10"  Visibility="{Binding IsWorking, Converter={StaticResource BooleanToVisibilityConverter}}" Orientation="Vertical">
+                    <StackPanel Margin="0 2" Orientation="Horizontal">
+                        <TextBlock FontSize="12" >Agents that have existed:  </TextBlock>
+                        <TextBlock FontSize="12" Text="{Binding NumberOfAgentsThatHaveExisted}"/>
+                    </StackPanel>
+                    <StackPanel Margin="0 2" Orientation="Horizontal">
+                        <TextBlock FontSize="12">World age:  </TextBlock>
+                        <TextBlock FontSize="12" Text="{Binding WorldAge}"/>
+                    </StackPanel>
+                    <StackPanel Margin="0 2" Orientation="Horizontal">
+                        <TextBlock FontSize="12">Best agent fitness:  </TextBlock>
+                        <TextBlock FontSize="12" Text="{Binding BestAgentFitness}"/>
+                    </StackPanel>
+                </StackPanel>
             </StackPanel>
             <Border BorderBrush="Red" BorderThickness="2"  Height="{Binding Height}" Width="{Binding Width}" >
                 <Canvas>
