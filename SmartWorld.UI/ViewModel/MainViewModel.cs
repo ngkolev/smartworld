@@ -204,6 +204,11 @@ namespace SmartWorld.UI.ViewModel
         {
             IsWorking = false;
             Timer.Stop();
+            if (FastGenerationTask!=null)
+            {
+                IsFastGenerating = false;
+                FastGenerationTask.Wait();
+            }
         }
 
         private void Restart()
@@ -230,6 +235,7 @@ namespace SmartWorld.UI.ViewModel
         {
             IsFastGenerating = false;
             FastGenerationTask.Wait();
+            FastGenerationTask = null;
             Timer.Start();
         }
     }
