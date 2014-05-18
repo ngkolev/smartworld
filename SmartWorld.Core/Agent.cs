@@ -203,6 +203,7 @@ namespace SmartWorld.Core
             {
                 if (agent != this && MathUtil.CheckForCollisionBetweenCircles(Position, Radius, agent.Position, agent.Radius))
                 {
+                    agent.IsDead = true;
                     IsDead = true;
                     break;
                 }
