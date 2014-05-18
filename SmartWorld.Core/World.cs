@@ -50,7 +50,8 @@ namespace SmartWorld.Core
         {
             // Set statistic properties
             NumberOfTicks++;
-            BestAgentFitness = Agents.OrderByDescending(a => a.Fitness).First().Fitness;
+            var currentBestFitness = Agents.OrderByDescending(a => a.Fitness).First().Fitness;
+            BestAgentFitness = Math.Max(currentBestFitness, BestAgentFitness);
 
             // All agents should make a move
             foreach (var agent in Agents)
