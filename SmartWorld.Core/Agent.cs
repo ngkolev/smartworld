@@ -13,11 +13,13 @@ namespace SmartWorld.Core
     public class Agent : IIndividual, IElement
     {
         // Inputs
-        private const int NUMBER_OF_INPUTS = 4;
+        private const int NUMBER_OF_INPUTS = 6;
         private const int INDEX_LEFT_RED_EYE = 0;
         private const int INDEX_RIGHT_RED_EYE = 1;
         private const int INDEX_LEFT_GREEN_EYE = 2;
         private const int INDEX_RIGHT_GREEN_EYE = 3;
+        private const int INDEX_CENTER_RED_EYE = 4;
+        private const int INDEX_CENTER_GREEN_EYE = 5;
 
         // Outputs
         private const int NUMBER_OF_OUTPUTS = 2;
@@ -138,6 +140,12 @@ namespace SmartWorld.Core
             var rightColorRed = rightColor == Color.Red;
             var rightColorGreen = rightColor == Color.Green;
 
+            // Center eye
+            var centerEye = new EyeManager(World, this, 0);
+            var centerColor = centerEye.See();
+            var centerColorRed = centerColor == Color.Red;
+            var centerColorGreen = centerColor == Color.Green;
+
             // Inputs
             var inputs = new double[NUMBER_OF_INPUTS];
 
@@ -145,6 +153,8 @@ namespace SmartWorld.Core
             inputs[INDEX_LEFT_GREEN_EYE] = leftColorGreen.AsDouble();
             inputs[INDEX_RIGHT_RED_EYE] = rightColorRed.AsDouble();
             inputs[INDEX_RIGHT_GREEN_EYE] = rightColorGreen.AsDouble();
+            inputs[INDEX_CENTER_RED_EYE] = centerColorRed.AsDouble();
+            inputs[INDEX_CENTER_GREEN_EYE] = centerColorGreen.AsDouble();
 
             // Pulse
             var outputs = Brain.Pulse(inputs).ToArray();
