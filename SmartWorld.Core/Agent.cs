@@ -241,9 +241,10 @@ namespace SmartWorld.Core
         private static Agent CreateAgentWithRandomPosition(World world)
         {
             // Randomize position
-            var maxX = (world.Width - ConfigManager.Current.AgentRadius);
-            var maxY = (world.Height - ConfigManager.Current.AgentRadius);
-            var position = Vector.CreateRandomVector(maxX, maxY);
+            var min = ConfigManager.Current.AgentRadius;
+            var maxX = (world.Width - min * 2);
+            var maxY = (world.Height - min * 2);
+            var position = Vector.CreateRandomVector(min, maxX, min, maxY);
 
             // Randomize look direction
             var lookAtUnnormalized = Vector.CreateRandomVector(-1, 1, -1, 1);

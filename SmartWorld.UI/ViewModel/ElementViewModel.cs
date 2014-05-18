@@ -11,7 +11,7 @@ namespace SmartWorld.UI.ViewModel
     {
         public int PositionX { get; set; }
         public int PositionY { get; set; }
-        public int Radius { get; set; }
+        public int Diameter { get; set; }
         public Brush Color { get; set; }
         public bool IsAgent { get; set; }
         public string AgeString { get;  set; }

@@ -40,10 +40,10 @@ namespace SmartWorld.Core.NeuralNetwork
             {
                 for (int i = 0; i < neuron.Weights.Count; i++)
                 {
-                    neuron.Weights[i] = random.NextDouble(0.1, 0.9);
+                    neuron.Weights[i] = random.NextDouble(-4, 4);
                 }
 
-                neuron.Bias = random.NextDouble(-0.9, 0.9);
+                neuron.Bias = random.NextDouble(-4, 4);
             }
         }
     }

@@ -118,9 +118,9 @@ namespace SmartWorld.UI.ViewModel
 
                 var agents = World.Agents.Select(a => new ElementViewModel
                 {
-                    PositionX = a.Position.X.Rounded(),
-                    PositionY = a.Position.Y.Rounded(),
-                    Radius = a.Radius.Rounded(),
+                    PositionX = (a.Position.X - a.Radius).Rounded(),
+                    PositionY = (a.Position.Y - a.Radius).Rounded(),
+                    Diameter = (a.Radius * 2).Rounded(),
                     Color = Brushes.Red,
                     IsAgent = true,
                     AgeString = "a: {0}".Formatted(a.Age),
@@ -129,9 +129,9 @@ namespace SmartWorld.UI.ViewModel
 
                 var foodElements = World.FoodElements.Select(f => new ElementViewModel
                 {
-                    PositionX = f.Position.X.Rounded(),
-                    PositionY = f.Position.Y.Rounded(),
-                    Radius = f.Radius.Rounded(),
+                    PositionX = (f.Position.X - f.Radius).Rounded(),
+                    PositionY = (f.Position.Y - f.Radius).Rounded(),
+                    Diameter = (f.Radius * 2).Rounded(),
                     Color = Brushes.Green,
                 });
 

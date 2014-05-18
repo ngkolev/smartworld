@@ -25,9 +25,10 @@ namespace SmartWorld.Core
 
         public static FoodElement CreateRandomFoodElement(World world)
         {
-            var maxX = (world.Width - ConfigManager.Current.FoodElementRadius);
-            var maxY = (world.Height - ConfigManager.Current.FoodElementRadius);
-            var position = Vector.CreateRandomVector(maxX, maxY);
+            var min = ConfigManager.Current.FoodElementRadius;
+            var maxX = (world.Width - min * 2);
+            var maxY = (world.Height - min * 2);
+            var position = Vector.CreateRandomVector(min, maxX, min, maxY);
 
             return new FoodElement(position);
         }

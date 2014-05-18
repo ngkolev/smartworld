@@ -5,7 +5,7 @@
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
-    <ScrollViewer >
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
         <StackPanel Orientation="Horizontal">
             <StackPanel Orientation="Vertical" >
                 <Button Content="Start" Margin="10" Command="{Binding StartCommand}" Width="200" Height="50" FontSize="20"/>
@@ -19,13 +19,13 @@
                     <ItemsControl ItemsSource="{Binding Elements}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <Canvas Background="White" Width="{Binding Radius}" Height="{Binding Radius}"  />
+                                <Canvas Background="White" Width="{Binding Diameter}" Height="{Binding Diameter}"  />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Ellipse Stroke="{Binding Color}" StrokeThickness="2" Width="{Binding Radius}" Height="{Binding Radius}" />
+                                    <Ellipse Stroke="{Binding Color}" StrokeThickness="2" Width="{Binding Diameter}" Height="{Binding Diameter}" />
                                     <StackPanel Visibility="{Binding IsAgent, Converter={StaticResource BooleanToVisibilityConverter }}" Orientation="Vertical">
                                         <TextBlock Foreground="Gray" Text="{Binding AgeString}"/>
                                         <TextBlock Foreground="Gray" Text="{Binding HealthString}"/>
