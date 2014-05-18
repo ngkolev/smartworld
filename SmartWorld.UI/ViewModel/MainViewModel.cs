@@ -34,14 +34,6 @@ namespace SmartWorld.UI.ViewModel
         }
         #endregion
 
-        public RelayCommand StartCommand { get; private set; }
-        public RelayCommand StopCommand { get; private set; }
-        public RelayCommand RestartCommand { get; private set; }
-
-        private Timer Timer { get; set; }
-
-        private World World { get; set; }
-
         #region IsWorking
         private bool _isWorking;
         public virtual bool IsWorking
@@ -57,33 +49,68 @@ namespace SmartWorld.UI.ViewModel
                     StartCommand.RaiseCanExecuteChanged();
                     StopCommand.RaiseCanExecuteChanged();
                     RestartCommand.RaiseCanExecuteChanged();
+                    StartFastGenerationCommand.RaiseCanExecuteChanged();
+                    StopFastGenerationCommand.RaiseCanExecuteChanged();
                 }
             }
         }
         #endregion
 
+        #region IsFastGenerating
+        private bool _isFastGenerating;
+        public virtual bool IsFastGenerating
+        {
+            get { return _isFastGenerating; }
+            set
+            {
+                if (value != _isFastGenerating)
+                {
+                    _isFastGenerating = value;
+                    OnPropertyChanged("IsFastGenerating");
+
+                    StartFastGenerationCommand.RaiseCanExecuteChanged();
+                    StopFastGenerationCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
+        #endregion
+
+        public RelayCommand StartCommand { get; private set; }
+        public RelayCommand StopCommand { get; private set; }
+        public RelayCommand RestartCommand { get; private set; }
+        public RelayCommand StartFastGenerationCommand { get; private set; }
+        public RelayCommand StopFastGenerationCommand { get; private set; }
+
+
+        private Timer Timer { get; set; }
+
+        private Task FastGenerationTask { get; set; }
+
+        private World World { get; set; }
+
+
         public MainViewModel()
         {
+            // Init map
             var config = ConfigManager.Current;
             Width = config.WorldWidth.Rounded();
             Height = config.WorldHeight.Rounded();
+            World = new World();
 
+            // Init commands
             StartCommand = new RelayCommand(Start, () => !IsWorking);
             StopCommand = new RelayCommand(Stop, () => IsWorking);
             RestartCommand = new RelayCommand(Restart, () => IsWorking);
+            StartFastGenerationCommand = new RelayCommand(StartFastGeneration, () => IsWorking && !IsFastGenerating);
+            StopFastGenerationCommand = new RelayCommand(StopFastGeneration, () => IsWorking && IsFastGenerating);
 
+            // Init timer
             Timer = new Timer(1000 / 24);
             Timer.Elapsed += Timer_Elapsed;
-
-            World = new World();
         }
+
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            DoWork();
-        }
-
-        private void DoWork()
         {
             lock (this)
             {
@@ -95,12 +122,15 @@ namespace SmartWorld.UI.ViewModel
                     PositionY = a.Position.Y.Rounded(),
                     Radius = a.Radius.Rounded(),
                     Color = Brushes.Red,
+                    IsAgent = true,
+                    AgeString = "a: {0}".Formatted(a.Age),
+                    HealthString = "h: {0}".Formatted(a.Health),
                 });
 
                 var foodElements = World.FoodElements.Select(f => new ElementViewModel
                 {
                     PositionX = f.Position.X.Rounded(),
-                    PositionY =f.Position.Y.Rounded(),
+                    PositionY = f.Position.Y.Rounded(),
                     Radius = f.Radius.Rounded(),
                     Color = Brushes.Green,
                 });
@@ -126,6 +156,28 @@ namespace SmartWorld.UI.ViewModel
         private void Restart()
         {
             World = new World();
+        }
+
+        private void StartFastGeneration()
+        {
+            IsFastGenerating = true;
+
+            Timer.Stop();
+
+            FastGenerationTask = Task.Factory.StartNew(() =>
+            {
+                while (IsFastGenerating)
+                {
+                    World.Tick();
+                }
+            });
+        }
+
+        private void StopFastGeneration()
+        {
+            IsFastGenerating = false;
+            FastGenerationTask.Wait();
+            Timer.Start();
         }
     }
 }
