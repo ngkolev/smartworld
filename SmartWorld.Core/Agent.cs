@@ -48,7 +48,7 @@ namespace SmartWorld.Core
         public bool IsDead { get; private set; }
         public int Age { get; private set; }
         public int Health { get; private set; }
-        public double Radius { get; set; }
+        public double Radius { get; private set; }
 
         private World World { get; set; }
         private Network Brain { get; set; }

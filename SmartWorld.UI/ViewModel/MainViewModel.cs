@@ -224,9 +224,12 @@ namespace SmartWorld.UI.ViewModel
 
             FastGenerationTask = Task.Factory.StartNew(() =>
             {
-                while (IsFastGenerating)
+                lock (syncObjectWorldTimer)
                 {
-                    World.Tick();
+                    while (IsFastGenerating)
+                    {
+                        World.Tick();
+                    }
                 }
             });
         }
