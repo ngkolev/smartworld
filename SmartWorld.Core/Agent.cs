@@ -13,13 +13,18 @@ namespace SmartWorld.Core
     public class Agent : IIndividual, IElement
     {
         // Inputs
-        private const int NUMBER_OF_INPUTS = 6;
+        private const int NUMBER_OF_INPUTS = 11;
         private const int INDEX_LEFT_RED_EYE = 0;
         private const int INDEX_RIGHT_RED_EYE = 1;
         private const int INDEX_LEFT_GREEN_EYE = 2;
         private const int INDEX_RIGHT_GREEN_EYE = 3;
         private const int INDEX_CENTER_RED_EYE = 4;
         private const int INDEX_CENTER_GREEN_EYE = 5;
+        private const int INDEX_OUTER_LEFT_RED_EYE = 6;
+        private const int INDEX_OUTER_RIGHT_RED_EYE = 7;
+        private const int INDEX_OUTER_LEFT_GREEN_EYE = 8;
+        private const int INDEX_OUTER_RIGHT_GREEN_EYE = 9;
+        private const int INDEX_HEALTH = 10;
 
         // Outputs
         private const int NUMBER_OF_OUTPUTS = 2;
@@ -134,11 +139,23 @@ namespace SmartWorld.Core
             var leftColorRed = leftColor == Color.Red;
             var leftColorGreen = leftColor == Color.Green;
 
+            // Left outer eye
+            var leftOuterEye = new EyeManager(World, this, -2 * EyeAngle);
+            var leftOuterColor = leftOuterEye.See();
+            var leftOuterColorRed = leftOuterColor == Color.Red;
+            var leftOuterColorGreen = leftOuterColor == Color.Green;
+
             // Right eye
             var rightEye = new EyeManager(World, this, EyeAngle);
             var rightColor = rightEye.See();
             var rightColorRed = rightColor == Color.Red;
             var rightColorGreen = rightColor == Color.Green;
+
+            // Right outer eye
+            var rightOuterEye = new EyeManager(World, this, 2 * EyeAngle);
+            var rightOuterColor = rightOuterEye.See();
+            var rightOuterColorRed = rightOuterColor == Color.Red;
+            var rightOuterColorGreen = rightOuterColor == Color.Green;
 
             // Center eye
             var centerEye = new EyeManager(World, this, 0);
@@ -153,8 +170,13 @@ namespace SmartWorld.Core
             inputs[INDEX_LEFT_GREEN_EYE] = leftColorGreen.AsDouble();
             inputs[INDEX_RIGHT_RED_EYE] = rightColorRed.AsDouble();
             inputs[INDEX_RIGHT_GREEN_EYE] = rightColorGreen.AsDouble();
+            inputs[INDEX_OUTER_LEFT_RED_EYE] = leftOuterColorRed.AsDouble();
+            inputs[INDEX_OUTER_LEFT_GREEN_EYE] = leftOuterColorGreen.AsDouble();
+            inputs[INDEX_OUTER_RIGHT_RED_EYE] = rightOuterColorRed.AsDouble();
+            inputs[INDEX_OUTER_RIGHT_GREEN_EYE] = rightOuterColorGreen.AsDouble();
             inputs[INDEX_CENTER_RED_EYE] = centerColorRed.AsDouble();
             inputs[INDEX_CENTER_GREEN_EYE] = centerColorGreen.AsDouble();
+            inputs[INDEX_HEALTH] = Health / 1000.0;
 
             // Pulse
             var outputs = Brain.Pulse(inputs).ToArray();
