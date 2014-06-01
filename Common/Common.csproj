@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="BoolExtensions.cs" />
     <Compile Include="DoubleExtensions.cs" />
+    <Compile Include="FileLogger.cs" />
     <Compile Include="IEnumerableExtensions.cs" />
     <Compile Include="MathUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

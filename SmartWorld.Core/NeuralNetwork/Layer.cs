@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,5 +20,16 @@ namespace SmartWorld.Core.NeuralNetwork
         }
 
         public IList<Neuron> Neurons { get; private set; }
+
+        public override string ToString()
+        {
+            var resultBuffer = new StringBuilder();
+            for (int i = 0; i < Neurons.Count; i++)
+            {
+                resultBuffer.AppendFormat("\tN{0}: \t {1}", i, Neurons[i]);
+            }
+
+            return resultBuffer.ToString();
+        }
     }
 }

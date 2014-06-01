@@ -36,5 +36,18 @@ namespace SmartWorld.Core.NeuralNetwork
         {
             return 2.0 / (1 + Math.Exp(-2 * x)) - 1;
         }
+
+        public override string ToString()
+        {
+            var resultBuffer = new StringBuilder();
+            resultBuffer.AppendFormat("\t {1}{0:0000.0000}", Bias, Bias >= 0 ? "+": "");
+
+            foreach (var weight in Weights)
+            {
+                resultBuffer.AppendFormat("\t {1}{0:0000.0000}", weight, weight >= 0 ? "+" : "");
+            }
+
+            return resultBuffer.ToString();
+        }
     }
 }

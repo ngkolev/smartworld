@@ -221,6 +221,8 @@ namespace SmartWorld.UI.ViewModel
             IsFastGenerating = true;
 
             Timer.Stop();
+            FileLogger.Current.Log("Fast generation started.");
+            ConfigManager.Current.ShouldLogAgentNeuralNetworks = false;
 
             FastGenerationTask = Task.Factory.StartNew(() =>
             {
@@ -238,6 +240,8 @@ namespace SmartWorld.UI.ViewModel
         {
             IsFastGenerating = false;
             FastGenerationTask.Wait();
+            ConfigManager.Current.ShouldLogAgentNeuralNetworks = true;
+            FileLogger.Current.Log("Fast generation stoped.");
             FastGenerationTask = null;
             Timer.Start();
         }

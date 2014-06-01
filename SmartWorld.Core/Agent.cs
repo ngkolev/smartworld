@@ -13,7 +13,7 @@ namespace SmartWorld.Core
     public class Agent : IIndividual, IElement
     {
         // Inputs
-        private const int NUMBER_OF_INPUTS = 11;
+        private const int NUMBER_OF_INPUTS = 12;
         private const int INDEX_LEFT_RED_EYE = 0;
         private const int INDEX_RIGHT_RED_EYE = 1;
         private const int INDEX_LEFT_GREEN_EYE = 2;
@@ -25,6 +25,7 @@ namespace SmartWorld.Core
         private const int INDEX_OUTER_LEFT_GREEN_EYE = 8;
         private const int INDEX_OUTER_RIGHT_GREEN_EYE = 9;
         private const int INDEX_HEALTH = 10;
+        private const int INDEX_TICK = 11;
 
         // Outputs
         private const int NUMBER_OF_OUTPUTS = 2;
@@ -46,6 +47,7 @@ namespace SmartWorld.Core
             RotationAngle = config.AgentRotationAngle;
             HealthFactor = config.AgentHealthFactor;
             AgeFactor = config.AgentAgeFactor;
+            TickLength = config.TickLength;
 
             Brain = new Network(NUMBER_OF_INPUTS, config.NumberOfNeuronsInHiddenLayer, NUMBER_OF_OUTPUTS);
         }
@@ -56,6 +58,7 @@ namespace SmartWorld.Core
         public int Age { get; private set; }
         public int Health { get; private set; }
         public double Radius { get; private set; }
+        public int TickLength { get; private set; }
 
         private World World { get; set; }
         private Network Brain { get; set; }
@@ -110,7 +113,6 @@ namespace SmartWorld.Core
                 return Age * AgeFactor + Health * HealthFactor;
             }
         }
-
 
         public void Tick()
         {
@@ -177,6 +179,7 @@ namespace SmartWorld.Core
             inputs[INDEX_CENTER_RED_EYE] = centerColorRed.AsDouble();
             inputs[INDEX_CENTER_GREEN_EYE] = centerColorGreen.AsDouble();
             inputs[INDEX_HEALTH] = Health / 1000.0;
+            inputs[INDEX_TICK] = World.NumberOfTicks % 10;
 
             // Pulse
             var outputs = Brain.Pulse(inputs).ToArray();
@@ -256,10 +259,16 @@ namespace SmartWorld.Core
         }
 
 
+        public override string ToString()
+        {
+            return this.Brain.ToString();
+        }
+
         public static Agent CreateRandomAgent(World world)
         {
             var agent = CreateAgentWithRandomPosition(world);
             agent.Brain.SetRandomWeights();
+            LogAgentIfNeeded(agent);
             return agent;
         }
 
@@ -267,6 +276,7 @@ namespace SmartWorld.Core
         {
             var agent = CreateAgentWithRandomPosition(world);
             agent.Genotype = genotype;
+            LogAgentIfNeeded(agent);
             return agent;
         }
 
@@ -287,7 +297,17 @@ namespace SmartWorld.Core
 
             var lookAt = lookAtUnnormalized.Normalized;
 
+
             return new Agent(world, position, lookAt);
+        }
+
+        private static void LogAgentIfNeeded(Agent agent)
+        {
+            // Log the agent's network
+            if (ConfigManager.Current.ShouldLogAgentNeuralNetworks)
+            {
+                FileLogger.Current.Log(agent.Brain.ToString());
+            }
         }
 
         private static IEnumerable<double> GetLayerGenotype(Layer layer)

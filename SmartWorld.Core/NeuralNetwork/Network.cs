@@ -46,5 +46,10 @@ namespace SmartWorld.Core.NeuralNetwork
                 neuron.Bias = random.NextDouble(-4, 4);
             }
         }
+
+        public override string ToString()
+        {
+            return "HL \t{0} OL \t{1}".Formatted(HiddenLayer, OutputLayer);
+        }
     }
 }

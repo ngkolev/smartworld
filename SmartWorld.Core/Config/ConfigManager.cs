@@ -31,6 +31,9 @@ namespace SmartWorld.Core.Config
             AgentAgeFactor = appSettings["AgentAgeFactor"].AsDouble();
             FoodElementRadius = appSettings["FoodElementRadius"].AsDouble();
             FoodElementHealthPoints = appSettings["FoodElementHealthPoints"].AsInt();
+            TickLength = appSettings["TickLength"].AsInt();
+
+            ShouldLogAgentNeuralNetworks = true;
         }
 
         public static ConfigManager Current
@@ -56,5 +59,9 @@ namespace SmartWorld.Core.Config
 
         public double FoodElementRadius { get; private set; }
         public int FoodElementHealthPoints { get; private set; }
+
+        public int TickLength { get; private  set; }
+
+        public bool ShouldLogAgentNeuralNetworks { get; set; }
     }
 }
