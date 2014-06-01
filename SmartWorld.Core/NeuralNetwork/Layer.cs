@@ -26,7 +26,7 @@ namespace SmartWorld.Core.NeuralNetwork
             var resultBuffer = new StringBuilder();
             for (int i = 0; i < Neurons.Count; i++)
             {
-                resultBuffer.AppendFormat("\tN{0}: \t {1}", i, Neurons[i]);
+                resultBuffer.AppendFormat("\tN{0}:{1}", i, Neurons[i]);
             }
 
             return resultBuffer.ToString();

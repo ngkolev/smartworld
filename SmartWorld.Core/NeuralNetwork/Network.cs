@@ -49,7 +49,7 @@ namespace SmartWorld.Core.NeuralNetwork
 
         public override string ToString()
         {
-            return "HL \t{0} OL \t{1}".Formatted(HiddenLayer, OutputLayer);
+            return "HL{0}\tOL{1}".Formatted(HiddenLayer, OutputLayer);
         }
     }
 }
