@@ -28,9 +28,8 @@ namespace SmartWorld.Core
         private const int INDEX_TICK = 11;
 
         // Outputs
-        private const int NUMBER_OF_OUTPUTS = 2;
-        private const int INDEX_TURN_LEFT = 0;
-        private const int INDEX_TURN_RIGHT = 1;
+        private const int NUMBER_OF_OUTPUTS = 1;
+        private const int INDEX_TURN= 0;
 
 
         private Agent(World world, Vector position, Vector lookAt)
@@ -183,19 +182,10 @@ namespace SmartWorld.Core
 
             // Pulse
             var outputs = Brain.Pulse(inputs).ToArray();
-            var turnLeft = outputs[INDEX_TURN_LEFT] > 0;
-            var turnRight = outputs[INDEX_TURN_RIGHT] > 0;
+            var turnAngle = outputs[INDEX_TURN];
 
             // Move
-            if (turnLeft)
-            {
-                LookAt = LookAt.Rotated(-RotationAngle);
-            }
-
-            if (turnRight)
-            {
-                LookAt = LookAt.Rotated(RotationAngle);
-            }
+            LookAt = LookAt.Rotated((turnAngle - 0.5) * 0.8);
 
             Position = Position + LookAt * Speed;
         }

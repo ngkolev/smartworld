@@ -54,7 +54,6 @@
     <Compile Include="EyeManager.cs" />
     <Compile Include="World.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{602d0d31-aa83-412e-b0b1-5e00f822e96a}</Project>

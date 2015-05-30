@@ -25,17 +25,17 @@ namespace SmartWorld.Core.Evolution
             // Get parents
             var bestTwoAgents = Population.Individuals
                 .OrderByDescending(i => i.Fitness)
-                .Take(2)
+                .Take(5)
                 .ToArray();
 
-            if (bestTwoAgents.Length == 2)
+            if (bestTwoAgents.Length >= 2)
             {
-                var mother = bestTwoAgents[0].Genotype;
-                var father = bestTwoAgents[1].Genotype;
+                var mother = bestTwoAgents[RandomHolder.Random.Next(5)].Genotype;
+                var father = bestTwoAgents[RandomHolder.Random.Next(5)].Genotype;
 
                 // Crossover
                 var genotypeLength = mother.Length;
-                var splitLine = genotypeLength / 2;
+                var splitLine = RandomHolder.Random.Next(genotypeLength);
                 var result = new double[genotypeLength];
                 for (int i = 0; i < splitLine; i++)
                 {
@@ -49,14 +49,11 @@ namespace SmartWorld.Core.Evolution
 
                 // Mutation
                 var random = RandomHolder.Random;
-                if (random.NextDouble() < MutationRate)
+                var neuronToChangeCount = (int)MutationRate * genotypeLength;
+                for (int i = 0; i < neuronToChangeCount; i++)
                 {
-                    var i = random.Next(genotypeLength);
                     var j = random.Next(genotypeLength);
-
-                    var temporal = result[i];
-                    result[i] = result[j];
-                    result[j] = temporal;
+                    result[j] += RandomHolder.Random.NextDouble(-0.3, 0.3);
                 }
 
                 Population.CreateIndividual(result);
